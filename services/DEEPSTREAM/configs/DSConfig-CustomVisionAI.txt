@@ -6,6 +6,8 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA Corporation is strictly prohibited.
 
+#ENSURE that you have run the included downloadYoloWeights.sh prior to using this configuration!
+
 [application]
 enable-perf-measurement=0
 perf-measurement-interval-sec=5
@@ -13,10 +15,10 @@ perf-measurement-interval-sec=5
 
 [tiled-display]
 enable=1
-rows=1
+rows=2
 columns=1
-width=1280
-height=640
+width=1400
+height=1200
 gpu-id=0
 #(0): nvbuf-mem-default - Default memory allocated, specific to particular platform
 #(1): nvbuf-mem-cuda-pinned - Allocate Pinned/Host cuda memory, applicable for Tesla
@@ -28,8 +30,26 @@ nvbuf-memory-type=0
 [source0]
 enable=1
 #Type - 1=CameraV4L2 2=URI 3=MultiURI 4=RTSP 5=CSI
-type=4
-uri=rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov
+type=2
+uri=rtsp://rtsp:12345678@192.168.1.162:554/av_stream/ch0
+rtsp-reconnect-interval-sec=60
+#latency=1000
+#type=5
+#camera-width=3280
+#camera-height=2464
+#camera-fps-n=20
+#camera-fps-d=1
+#camera-csi-sensor-id=0
+# (0): memtype_device   - Memory type Device
+# (1): memtype_pinned   - Memory type Host Pinned
+# (2): memtype_unified  - Memory type Unified
+cudadec-memtype=0
+
+[source1]
+enable=1
+#Type - 1=CameraV4L2 2=URI 3=MultiURI 4=RTSP 5=CSI
+type=2
+uri=rtsp://rtsp:12345678@192.168.1.143:554/av_stream/ch0
 rtsp-reconnect-interval-sec=60
 #latency=1000
 #type=5
@@ -45,7 +65,7 @@ cudadec-memtype=0
 
 [sink0]
 enable=1
-#Type - 1=FakeSink 2=EglSink 3=File 4=UDPSink 5=nvoverlaysink
+#Type - 1=FakeSink 2=EglSink 3=File 4=UDPSink 5=nvoverlaysink 
 type=2
 sync=0
 source-id=0
@@ -89,7 +109,7 @@ type=4
 #1=h264 2=h265
 codec=1
 sync=0
-bitrate=1500000
+bitrate=3000000
 # set below properties in case of RTSPStreaming
 rtsp-port=8554
 udp-port=5401
@@ -112,7 +132,7 @@ nvbuf-memory-type=0
 [streammux]
 ##Boolean property to inform muxer that sources are live
 live-source=1
-batch-size=1
+batch-size=2
 ##time out in usec, to wait after the first buffer is available
 ##to push the batch even if the complete batch is not formed
 batched-push-timeout=40000
@@ -122,10 +142,10 @@ height=720
 ## If set to TRUE, system timestamp will be attached as ntp timestamp
 ## If set to FALSE, ntp timestamp from rtspsrc, if available, will be attached
 attach-sys-ts-as-ntp=1
+
 # config-file property is mandatory for any gie section.
 # Other properties are optional and if set will override the properties set in
 # the infer config file.
-
 [primary-gie]
 enable=1
 model-engine-file=../../CUSTOM_VISION_AI/model.onnx_b1_gpu0_fp32.engine
@@ -137,7 +157,7 @@ bbox-border-color0=1;0;0;1
 bbox-border-color1=0;1;1;1
 bbox-border-color2=0;0;1;1
 bbox-border-color3=0;1;0;1
-interval=0
+interval=2
 #Required by the app for SGIE, when used along with config-file property
 gie-unique-id=1
 config-file=config_infer_primary_CustomVisionAI.txt
@@ -153,4 +173,3 @@ gpu-id=0
 
 [tests]
 file-loop=1
-

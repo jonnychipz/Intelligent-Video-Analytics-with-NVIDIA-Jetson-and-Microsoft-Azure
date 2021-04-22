@@ -1,4 +1,3 @@
-
 # Copyright (c) 2018 NVIDIA Corporation.  All rights reserved.
 #
 # NVIDIA Corporation and its licensors retain all intellectual property
@@ -10,7 +9,15 @@
 [sensor0]
 enable=1
 type=Camera
-id=Camera_0
-location=45.293701447;-75.8303914499;48.1557479338
-description=Example Camera Entry
+id=Street
+location=51.663479;-3.159109;160
+description=Street View
+coordinate=5.2;10.1;11.2
+
+[sensor1]
+enable=1
+type=Camera
+id=Studio
+location=51.663479;-3.159109;160
+description=Studio View
 coordinate=5.2;10.1;11.2
